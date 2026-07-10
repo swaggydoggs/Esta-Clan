@@ -1,0 +1,48 @@
+const { Events } = require('discord.js');
+const { askClaude } = require('../utils/ai');
+
+const PREFIX = process.env.PREFIX || '/';
+
+module.exports = {
+  name: Events.MessageCreate,
+  once: false,
+  async execute(message) {
+    const client = message.client;
+
+    if (message.author.bot) return;
+
+    // Trigger AI response on: @mention of the bot, OR a reply to one of the bot's messages
+    let isReplyToBot = false;
+    if (message.reference?.messageId) {
+      try {
+        const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
+        isReplyToBot = repliedTo.author.id === client.user.id;
+      } catch (error) {
+        console.error('Failed to fetch replied-to message:', error);
+      }
+    }
+    const isMention = message.mentions.has(client.user);
+
+    if (isMention || isReplyToBot) {
+      const question = message.content.replace(/<@!?\d+>/g, '').trim();
+      await askClaude(message, question);
+      return;
+    }
+
+    // Prefix commands, loaded from the commands/ folder into client.commands
+    if (!message.content.startsWith(PREFIX)) return;
+
+    const args = message.content.slice(PREFIX.length).trim().split(/\s+/);
+    const commandName = args.shift().toLowerCase();
+
+    const command = client.commands.get(commandName);
+    if (!command) return;
+
+    try {
+      await command.execute(message, args);
+    } catch (error) {
+      console.error(`Error executing command "${commandName}":`, error);
+      await message.reply('Something went wrong running that command.');
+    }
+  },
+};

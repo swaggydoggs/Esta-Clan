@@ -1,0 +1,10 @@
+const { askClaude } = require('../utils/ai');
+
+module.exports = {
+  name: 'ask',
+  description: 'Ask Claude (AI) a question',
+  async execute(message, args) {
+    const question = args.join(' ');
+    await askClaude(message, question);
+  },
+};

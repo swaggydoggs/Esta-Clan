@@ -60,7 +60,7 @@ export default {
         const buttons = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId(`loa_accept_${interaction.user.id}`)
+                 .setCustomId(`loa_accept:${interaction.user.id}`)
                     .setLabel("Accept")
                     .setStyle(ButtonStyle.Success),
 

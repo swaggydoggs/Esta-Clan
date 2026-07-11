@@ -3,7 +3,7 @@ import {
     EmbedBuilder
 } from "discord.js";
 
-const LOA_CHANNEL_ID = "1524817037652918282";
+const LOA_CHANNEL_ID = "1520419079020609547";
 
 export default {
     slashOnly: true,

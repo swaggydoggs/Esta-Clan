@@ -5,7 +5,7 @@ import {
     ButtonBuilder, 
     ButtonStyle 
 } from "discord.js";
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName("loa")
         .setDescription("Request a Leave of Absence")

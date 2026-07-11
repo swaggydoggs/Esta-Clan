@@ -1,5 +1,3 @@
-
-}
 import {
     SlashCommandBuilder,
     ActionRowBuilder,
@@ -10,6 +8,8 @@ import {
 import { InteractionHelper } from "../../utils/interactionHelper.js";
 import { createEmbed } from "../../utils/embeds.js";
 
+const OWNER_ID = "1368313910943547413";
+
 export default {
     slashOnly: true,
 
@@ -18,8 +18,6 @@ export default {
         .setDescription("Open the owner control panel"),
 
     async execute(interaction, guildConfig, client) {
-
-        const OWNER_ID = "1368313910943547413";
 
         if (interaction.user.id !== OWNER_ID) {
             return interaction.reply({
@@ -30,23 +28,54 @@ export default {
 
         await InteractionHelper.safeDefer(interaction);
 
+        const botName = client.user?.username || "Bot";
+
         const embed = createEmbed({
             title: "👑 Owner Panel",
-            description: "Bot owner controls",
+            description: "Welcome to the bot owner control panel.",
             color: "primary",
+            fields: [
+                {
+                    name: "🤖 Bot",
+                    value: botName,
+                    inline: true,
+                },
+                {
+                    name: "👤 Owner",
+                    value: `<@${OWNER_ID}>`,
+                    inline: true,
+                },
+                {
+                    name: "⚙️ Options",
+                    value: "Use the dropdown below to manage the bot.",
+                    inline: false,
+                },
+            ],
         });
 
         const menu = new StringSelectMenuBuilder()
             .setCustomId("owner-panel")
-            .setPlaceholder("Choose an option")
+            .setPlaceholder("Choose an owner action")
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel("Bot Info")
-                    .setValue("info"),
+                    .setLabel("📊 Bot Info")
+                    .setDescription("View bot information")
+                    .setValue("bot_info"),
 
                 new StringSelectMenuOptionBuilder()
-                    .setLabel("Reload Commands")
-                    .setValue("reload")
+                    .setLabel("🔄 Reload Commands")
+                    .setDescription("Reload bot commands")
+                    .setValue("reload_commands"),
+
+                new StringSelectMenuOptionBuilder()
+                    .setLabel("🔧 Server Settings")
+                    .setDescription("View server settings")
+                    .setValue("settings"),
+
+                new StringSelectMenuOptionBuilder()
+                    .setLabel("🛑 Shutdown Bot")
+                    .setDescription("Turn off the bot")
+                    .setValue("shutdown")
             );
 
         const row = new ActionRowBuilder()

@@ -1,73 +1,86 @@
-import {
-    SlashCommandBuilder,
-    EmbedBuilder
-} from "discord.js";
+const { 
+    SlashCommandBuilder, 
+    EmbedBuilder, 
+    ActionRowBuilder, 
+    ButtonBuilder, 
+    ButtonStyle 
+} = require("discord.js");
 
-const LOA_CHANNEL_ID = "1520419079020609547";
-
-export default {
-    slashOnly: true,
-
+module.exports = {
     data: new SlashCommandBuilder()
         .setName("loa")
         .setDescription("Request a Leave of Absence")
         .addStringOption(option =>
-            option
-                .setName("reason")
-                .setDescription("Reason for your LOA")
-                .setRequired(true)
-        )
-        .addIntegerOption(option =>
-            option
-                .setName("days")
-                .setDescription("How many days will you be away?")
+            option.setName("reason")
+                .setDescription("Reason for LOA")
                 .setRequired(true)
         ),
 
     async execute(interaction) {
-        const reason = interaction.options.getString("reason");
-        const days = interaction.options.getInteger("days");
 
-        const loaChannel = interaction.guild.channels.cache.get(LOA_CHANNEL_ID);
+        const STAFF_ROLE = "1520177903722037470";
+        const LOA_CHANNEL = "1520419079020609547";
 
-        if (!loaChannel) {
+        // Staff only
+        if (!interaction.member.roles.cache.has(STAFF_ROLE)) {
             return interaction.reply({
-                content: "❌ LOA channel could not be found.",
-                ephemeral: true,
+                content: "❌ You do not have permission to use this command.",
+                ephemeral: true
             });
         }
 
+        const reason = interaction.options.getString("reason");
+
+        const channel = interaction.guild.channels.cache.get(LOA_CHANNEL);
+
+        if (!channel) {
+            return interaction.reply({
+                content: "❌ LOA channel not found.",
+                ephemeral: true
+            });
+        }
+
+
         const embed = new EmbedBuilder()
-            .setColor("Blue")
-            .setTitle("📅 New Leave of Absence")
+            .setTitle("📋 New LOA Request")
+            .setColor("Yellow")
             .addFields(
                 {
-                    name: "👤 Staff Member",
+                    name: "Requested By",
                     value: `${interaction.user}`,
-                    inline: true,
+                    inline: true
                 },
                 {
-                    name: "⏳ Duration",
-                    value: `${days} day(s)`,
-                    inline: true,
-                },
-                {
-                    name: "📝 Reason",
-                    value: reason,
+                    name: "Reason",
+                    value: reason
                 }
             )
-            .setFooter({
-                text: `User ID: ${interaction.user.id}`,
-            })
             .setTimestamp();
 
-        await loaChannel.send({
+
+        const buttons = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`loa_accept_${interaction.user.id}`)
+                    .setLabel("Accept")
+                    .setStyle(ButtonStyle.Success),
+
+                new ButtonBuilder()
+                    .setCustomId(`loa_decline_${interaction.user.id}`)
+                    .setLabel("Decline")
+                    .setStyle(ButtonStyle.Danger)
+            );
+
+
+        await channel.send({
             embeds: [embed],
+            components: [buttons]
         });
 
+
         await interaction.reply({
-            content: "✅ Your LOA request has been submitted.",
-            ephemeral: true,
+            content: "✅ LOA request sent for approval.",
+            ephemeral: true
         });
-    },
+    }
 };

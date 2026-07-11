@@ -88,8 +88,7 @@ export async function loadCommands(client) {
             
             const subcommands = getSubcommandInfo(command.data.toJSON());
             
-            logger.info(`Loaded command: ${primaryCommandName} from ${normalizedPath} (category: ${category})`);
-            
+           console.log(`✅ Loaded command: ${primaryCommandName}`);
             if (subcommands.length > 0) {
                 logger.info(`  - Subcommands: ${subcommands.join(', ')}`);
             }

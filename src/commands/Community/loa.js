@@ -1,11 +1,10 @@
-const { 
+import { 
     SlashCommandBuilder, 
     EmbedBuilder, 
     ActionRowBuilder, 
     ButtonBuilder, 
     ButtonStyle 
-} = require("discord.js");
-
+} from "discord.js";
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("loa")

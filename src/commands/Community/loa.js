@@ -65,7 +65,7 @@ export default {
                     .setStyle(ButtonStyle.Success),
 
                 new ButtonBuilder()
-                    .setCustomId(`loa_decline_${interaction.user.id}`)
+                    .setCustomId(`loa_decline:${interaction.user.id}`)
                     .setLabel("Decline")
                     .setStyle(ButtonStyle.Danger)
             );

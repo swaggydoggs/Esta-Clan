@@ -17,7 +17,6 @@ export default {
 
     async execute(interaction, guildConfig, client) {
 
-        // CHANGE THIS TO YOUR DISCORD USER ID
         const OWNER_ID = "1368313910943547413";
 
         if (interaction.user.id !== OWNER_ID) {
@@ -31,46 +30,21 @@ export default {
 
         const embed = createEmbed({
             title: "👑 Owner Panel",
-            description:
-                "Select an option below to manage the bot.",
+            description: "Bot owner controls",
             color: "primary",
-            fields: [
-                {
-                    name: "Bot Status",
-                    value: "🟢 Online",
-                    inline: true,
-                },
-                {
-                    name: "Owner",
-                    value: `<@${interaction.user.id}>`,
-                    inline: true,
-                },
-            ],
         });
 
         const menu = new StringSelectMenuBuilder()
             .setCustomId("owner-panel")
-            .setPlaceholder("Select an owner action")
+            .setPlaceholder("Choose an option")
             .addOptions(
                 new StringSelectMenuOptionBuilder()
-                    .setLabel("Restart Bot")
-                    .setDescription("Restart the bot")
-                    .setValue("restart"),
-
-                new StringSelectMenuOptionBuilder()
-                    .setLabel("Reload Commands")
-                    .setDescription("Reload all commands")
-                    .setValue("reload"),
-
-                new StringSelectMenuOptionBuilder()
                     .setLabel("Bot Info")
-                    .setDescription("View bot information")
                     .setValue("info"),
 
                 new StringSelectMenuOptionBuilder()
-                    .setLabel("Server Settings")
-                    .setDescription("Manage settings")
-                    .setValue("settings")
+                    .setLabel("Reload Commands")
+                    .setValue("reload")
             );
 
         const row = new ActionRowBuilder()

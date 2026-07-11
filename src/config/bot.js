@@ -544,3 +544,6 @@ export function getRandomColor() {
 }
 
 export default botConfig;
+git add .
+git commit -m "Added LOA command"
+git push

@@ -18,7 +18,7 @@ export default {
     async execute(interaction, guildConfig, client) {
 
         // CHANGE THIS TO YOUR DISCORD USER ID
-        const OWNER_ID = "YOUR_USER_ID";
+        const OWNER_ID = "1368313910943547413";
 
         if (interaction.user.id !== OWNER_ID) {
             return interaction.reply({

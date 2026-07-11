@@ -124,11 +124,18 @@ function collectCommandPayloads(client) {
     let totalSubcommands = 0;
     const registeredNames = new Set();
 
-    for (const command of client.commands.values()) {
-        if (!command.data || typeof command.data.toJSON !== 'function') {
-            logger.warn(`Command missing data or toJSON method: ${command}`);
-            continue;
-        }
+    const commandList = Array.from(client.commands.values());
+
+commandList.sort((a, b) => {
+    if (a.data.name === 'natsen') return -1;
+    if (b.data.name === 'natsen') return 1;
+});
+
+for (const command of commandList) {
+    if (!command.data || typeof command.data.toJSON !== 'function') {
+        logger.warn(`Command missing data or toJSON method: ${command}`);
+        continue;
+    }
 
         const commandName = command.data.name;
         logger.debug(`Processing command for registration: ${commandName}`);

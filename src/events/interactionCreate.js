@@ -421,4 +421,46 @@ export default {
       }
     });
   }
-};
+};client.on("interactionCreate", async interaction => {
+
+    if (!interaction.isButton()) return;
+
+
+    const STAFF_ROLE = "1520177903722037470";
+    const LOA_ROLE = "1524817037652918282";
+
+
+    if (!interaction.member.roles.cache.has(STAFF_ROLE)) {
+        return interaction.reply({
+            content: "❌ Only staff can approve or decline LOAs.",
+            ephemeral: true
+        });
+    }
+
+
+    if (interaction.customId.startsWith("loa_accept_")) {
+
+        const userId = interaction.customId.split("_")[2];
+
+        const member = await interaction.guild.members.fetch(userId);
+
+        await member.roles.add(LOA_ROLE);
+
+
+        await interaction.reply({
+            content: `✅ LOA accepted for ${member.user.tag}`
+        });
+    }
+
+
+    if (interaction.customId.startsWith("loa_decline_")) {
+
+        const userId = interaction.customId.split("_")[2];
+
+
+        await interaction.reply({
+            content: `❌ LOA declined for <@${userId}>`
+        });
+    }
+
+});

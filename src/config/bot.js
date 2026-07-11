@@ -207,7 +207,6 @@ export const botConfig = {
     defaultCategory: null,
 
     // Role IDs allowed to manage/support tickets.
-    supportRoles: [],supportRoles: [
   "1520473111072346132", // PC/Laptop Tryout Hoster
   "1520473013995438260", // Mobile Tryout Hoster
   "1520177903722037470", // Staff

@@ -36,7 +36,17 @@ export default {
 
         if (interaction.isChatInputCommand()) {
           try {
-            logger.info(`Command executed: /${interaction.commandName} by ${interaction.user.tag}`, {
+            logger.info      } catch (error) {
+        await handleInteractionError(interaction, error, withTraceContext({
+          type: 'interaction',
+          commandName: interaction.commandName,
+          customId: interaction.customId,
+          source: 'interactionCreate.unhandled'
+        }, interactionTraceContext));
+      }
+    });
+  }
+};(`Command executed: /${interaction.commandName} by ${interaction.user.tag}`, {
               event: 'interaction.command.received',
               traceId: interactionTraceContext.traceId,
               guildId: interaction.guildId,

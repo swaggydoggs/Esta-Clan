@@ -427,7 +427,7 @@ try {
     });
   }
 }; 
-              return;        try {
+             
           await handleInteractionError(interaction, error, withTraceContext({
             type: 'interaction',
             commandName: interaction.commandName,

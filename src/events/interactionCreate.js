@@ -428,24 +428,6 @@ try {
   }
 }; 
              
-          await handleInteractionError(interaction, error, withTraceContext({
-            type: 'interaction',
-            commandName: interaction.commandName,
-            customId: interaction.customId,
-            source: 'interactionCreate.unhandled'
-          }, interactionTraceContext));
-        } catch (replyError) {
-          logger.error('Failed to send fallback error response:', {
-            event: 'interaction.error_response_failed',
-            errorCode: 'INTERACTION_ERROR_RESPONSE_FAILED',
-            error: replyError,
-            traceId: interactionTraceContext.traceId
-          });
-        }
-      }
-    });
-  }
-};
             }
 
             

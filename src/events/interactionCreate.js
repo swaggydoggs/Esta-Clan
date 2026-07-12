@@ -103,5 +103,9 @@ export default {
             }
 
             await command.execute(interaction, guildConfig, client);
-          } catch (error) {
+          } catch (error) {            await handleInteractionError(interaction, error, withTraceContext({
+              type: 'command',
+              commandName: interaction.commandName
+            }, interactionTraceContext));
+          }
            

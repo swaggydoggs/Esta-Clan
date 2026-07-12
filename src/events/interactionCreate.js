@@ -21,8 +21,6 @@ function withTraceContext(context = {}, traceContext = {}) {
     userId: context.userId || traceContext.userId,
     command: context.commandName || traceContext.command,
     ...context
-  };
-}
 
 export default {
   name: Events.InteractionCreate,

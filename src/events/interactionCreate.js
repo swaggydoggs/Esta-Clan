@@ -103,7 +103,7 @@ export default {
             }
 
             await command.execute(interaction, guildConfig, client);
-          } catch (error) {            await handleInteractionError(interaction, error, withTraceContext({
+       {            await handleInteractionError(interaction, error, withTraceContext({
               type: 'command',
               commandName: interaction.commandName
             }, interactionTraceContext));

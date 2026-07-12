@@ -369,7 +369,33 @@ export default {
           const modal = client.modals.get(customId);
 
           if (!modal) {
-            if (!interaction.customId.includes(':')) {
+          if (!interaction.customId.includes(':')) {
+    return;
+}
+
+throw createError(
+    `No modal handler found for ${customId}`,
+    ErrorTypes.CONFIGURATION,
+    'This form is not available.',
+    withTraceContext({ customId }, interactionTraceContext)
+);
+}
+
+try {
+    await modal.execute(interaction, client, args);
+} catch (error) {
+    await handleInteractionError(interaction, error, withTraceContext({
+        type: 'modal',
+        customId: interaction.customId,
+        handler: 'general'
+    }, interactionTraceContext));
+}
+}
+}
+}
+    });
+  }
+};
 
               return;        try {
           await handleInteractionError(interaction, error, withTraceContext({
